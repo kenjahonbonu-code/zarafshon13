@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aloqa | 13-maktab</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #eef4ff;
+      color: #172b4d;
+    }
+    nav {
+      background: #162d5b;
+      padding: 25px 15px;
+      text-align: center;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin: 5px 12px;
+    }
+    nav a:hover { color: #9edbff; }
+    header {
+      text-align: center;
+      padding: 70px 20px 35px;
+    }
+    header h1 {
+      font-size: 44px;
+      color: #123c91;
+    }
+    header p {
+      font-size: 19px;
+      color: #667085;
+    }
+    .contacts {
+      max-width: 1100px;
+      margin: 30px auto 50px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+    .contact-card {
+      background: white;
+      padding: 35px 22px;
+      border-radius: 24px;
+      text-align: center;
+      box-shadow: 0 12px 30px rgba(20,43,89,.12);
+      transition: transform .3s;
+    }
+    .contact-card:hover {
+      transform: translateY(-8px);
+    }
+    .contact-card .symbol { font-size: 38px; }
+    .contact-card h2 {
+      color: #123c91;
+      font-size: 22px;
+    }
+    .contact-card p {
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+    }
+    .social {
+      text-align: center;
+      margin: 30px 20px 60px;
+    }
+    .social h2 { color: #123c91; }
+    .social span {
+      display: inline-block;
+      margin: 8px;
+      padding: 14px 22px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 6px 18px rgba(20,43,89,.1);
+    }
+    .map {
+      max-width: 1050px;
+      margin: 0 auto 70px;
+      padding: 0 20px;
+      text-align: center;
+    }
+    .map h2 { color: #123c91; }
+    .map-placeholder {
+      background: white;
+      border-radius: 24px;
+      padding: 65px 20px;
+      box-shadow: 0 12px 30px rgba(20,43,89,.12);
+      color: #667085;
+    }
+    @media(max-width:600px) {
+      header h1 { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html">Bosh sahifa</a>
+    <a href="yangiliklar.html">Yangiliklar</a>
+    <a href="oqituvchilar.html">O'qituvchilar</a>
+    <a href="galereya.html">Galereya</a>
+    <a href="aloqa.html">Aloqa</a>
+  </nav>
+
+  <header>
+    <h1>Biz bilan bog'laning</h1>
+    <p>13-maktab bilan aloqa ma'lumotlari</p>
+  </header>
+
+  <main>
+    <section class="contacts">
+      <div class="contact-card">
+        <div class="symbol">📍</div>
+        <h2>Manzil</h2>
+        <p>Navoiy viloyati, Zarafshon shahri</p>
+        <p>13-sonli umumiy o'rta ta'lim maktabi</p>
+      </div>
+
+      <div class="contact-card">
+        <div class="symbol">📞</div>
+        <h2>Telefon</h2>
+        <p>Telefon raqami keyin kiritiladi</p>
+      </div>
+
+      <div class="contact-card">
+        <div class="symbol">✉️</div>
+        <h2>Elektron pochta</h2>
+        <p>Maktabning rasmiy email manzili
+        keyin kiritiladi</p>
+      </div>
+    </section>
+
+    <section class="social">
+      <h2>Ijtimoiy tarmoqlar</h2>
+      <span>Instagram — havola kutilmoqda</span>
+      <span>Facebook — havola kutilmoqda</span>
+    </section>
+
+    <section class="map">
+      <h2>Bizning joylashuvimiz</h2>
+      <div class="map-placeholder">
+        🗺️ Maktabning aniq joylashuvi
+        tasdiqlangach, xarita qo'shiladi.
+      </div>
+    </section>
+  </main>
+
+</body>
+</html>

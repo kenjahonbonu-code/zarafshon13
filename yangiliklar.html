@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yangiliklar | 13-maktab</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #eef4ff;
+      color: #172b4d;
+    }
+
+    nav {
+      background: #162d5b;
+      padding: 25px 15px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 0 15px;
+      display: inline-block;
+      padding: 6px 0;
+    }
+
+    nav a:hover { color: #9edbff; }
+
+    header {
+      text-align: center;
+      padding: 75px 20px 35px;
+    }
+
+    header h1 {
+      color: #123c91;
+      font-size: 44px;
+    }
+
+    header p {
+      color: #667085;
+      font-size: 19px;
+    }
+
+    .news {
+      max-width: 1150px;
+      margin: 30px auto 80px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+    }
+
+    .news-card {
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(20,43,89,.12);
+      transition: transform .3s;
+    }
+
+    .news-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .news-card img {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .content { padding: 25px; }
+
+    .date {
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    .content h2 {
+      color: #123c91;
+      font-size: 22px;
+    }
+
+    .content p { line-height: 1.7; }
+
+    .more {
+      color: #1263c7;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 32px; }
+      nav a { margin: 5px 8px; }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <a href="index.html">Bosh sahifa</a>
+    <a href="yangiliklar.html">Yangiliklar</a>
+    <a href="oqituvchilar.html">O'qituvchilar</a>
+    <a href="galereya.html">Galereya</a>
+  </nav>
+
+  <header>
+    <h1>Maktab yangiliklari</h1>
+    <p>13-maktab hayotidagi voqealar va e'lonlar</p>
+  </header>
+
+  <main class="news">
+    <article class="news-card">
+      <img src="mak.jpg" alt="Maktab binosi">
+      <div class="content">
+        <span class="date">Namuna yangilik</span>
+        <h2>Maktabimiz hayotidan</h2>
+        <p>Maktabimizdagi tadbirlar va muhim
+        voqealar haqida ma'lumotlar.</p>
+        <a class="more" href="galereya.html">
+          Fotolarni ko'rish
+        </a>
+      </div>
+    </article>
+
+    <article class="news-card">
+      <img src="mak.jpg" alt="Maktab">
+      <div class="content">
+        <span class="date">Namuna yangilik</span>
+        <h2>O'quvchilar yutuqlari</h2>
+        <p>Iqtidorli o'quvchilarimizning
+        muvaffaqiyatlari shu yerda yoritiladi.</p>
+        <a class="more" href="index.html">
+          Bosh sahifaga o'tish
+        </a>
+      </div>
+    </article>
+
+    <article class="news-card">
+      <img src="mak.jpg" alt="Maktab">
+      <div class="content">
+        <span class="date">Namuna e'lon</span>
+        <h2>Maktab e'lonlari</h2>
+        <p>Ota-onalar va o'quvchilar uchun
+        muhim xabarlar shu yerda beriladi.</p>
+        <a class="more" href="index.html">
+          Bosh sahifaga o'tish
+        </a>
+      </div>
+    </article>
+  </main>
+</body>
+</html>

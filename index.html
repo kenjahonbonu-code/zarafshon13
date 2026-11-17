@@ -1,0 +1,17 @@
+<!doctype html><html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#1756e8"><title>13-maktab | Zarafshon</title><link rel="stylesheet" href="style.css"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script></head><body>
+<div class="topbar"><span>📍 Navoiy viloyati, Zarafshon shahri</span><span>✨ Bilimdan — yuksak marralar sari!</span></div>
+<header class="header"><a class="brand" href="#home" data-page="home"><span class="brandmark">13</span><span><b>13-MAKTAB</b><small>ZARAFSHON SHAHRI</small></span></a><button class="menu" id="menu" aria-label="Menyuni ochish">☰</button><nav id="nav"><a href="#home" data-page="home" class="active">Bosh sahifa</a><a href="#about" data-page="about">Maktab haqida</a><a href="#team" data-page="team">Jamoamiz</a><a href="#news" data-page="news">Yangiliklar</a><a href="#success" data-page="success">Yutuqlar</a><a href="#gallery" data-page="gallery">Galereya</a><a href="#contact" data-page="contact">Bog‘lanish</a><a class="admin-link" href="#admin" data-page="admin">⚙ Admin</a></nav></header>
+<main id="app"></main><footer><div class="footer-grid"><div><div class="footer-logo">✦ 13-MAKTAB</div><p>Zarafshon shahridagi ayrim fanlar chuqur o‘qitiladigan sinflari mavjud umumiy o‘rta ta’lim maktabi.</p></div><div><b>Bo‘limlar</b><p><a href="#about">Maktab haqida</a></p><p><a href="#news">Yangiliklar</a></p><p><a href="#gallery">Galereya</a></p></div><div><b>Manzil</b><p>📍 Zarafshon shahri, Navoiy viloyati</p><p>✉ Aloqa ma’lumotlari kiritiladi</p></div></div><div class="copyright">© <span id="year"></span> Zarafshon 13-maktab. Barcha huquqlar himoyalangan.</div></footer>
+<div class="modal" id="modal" hidden><button id="closeModal" aria-label="Yopish">✕</button><img id="modalImg" alt="Kattalashtirilgan surat"></div><div class="video-modal" id="videoModal" hidden role="dialog" aria-modal="true" aria-label="Maktab videosi"><div class="video-dialog"><button class="video-close" id="closeSchoolVideo" type="button" aria-label="Videoni yopish">✕</button><video id="schoolVideo" controls playsinline preload="none" poster="
+    mak.jpg"><source src="13maktab.mp4" type="video/mp4">Brauzeringiz video formatini qo‘llab-quvvatlamaydi.</video><p class="video-note" id="videoNote" hidden>Video hali qo‘shilmagan. <b>13maktab.mp4</b> faylini <b>index.html</b> yoniga joylashtiring va sahifani qayta oching.</p></div></div><script src="app.js"></script></body></html>
+supabaseClient
+  .from("news")
+  .select("*")
+  .limit(1)
+  .then(({ data, error }) => {
+    if (error) {
+      console.error("Supabase xatosi:", error.message);
+    } else {
+      console.log("Supabase ulanishi muvaffaqiyatli!", data);
+    }
+  });

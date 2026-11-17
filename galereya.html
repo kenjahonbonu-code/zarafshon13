@@ -1,0 +1,351 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galereya | 13-maktab</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #eef4ff;
+      color: #17315e;
+    }
+
+    nav {
+      background: #162d5b;
+      padding: 25px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 0 20px;
+    }
+
+    nav a:hover {
+      color: #69c8ff;
+    }
+
+    header {
+      text-align: center;
+      padding: 65px 20px 25px;
+    }
+
+    header h1 {
+      font-size: 42px;
+      color: #123c91;
+    }
+
+    header p {
+      color: #667085;
+      font-size: 18px;
+    }
+
+    .gallery {
+      max-width: 1150px;
+      margin: 35px auto 80px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+    }
+
+    .photo {
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(20, 43, 89, 0.12);
+      transition: transform 0.3s;
+    }
+
+    .photo:hover {
+      transform: translateY(-8px);
+    }
+
+    .photo img {
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+    }
+
+    .photo h3 {
+      text-align: center;
+      padding: 10px 15px 20px;
+    }
+
+    @media (max-width: 600px) {
+      nav a {
+        display: inline-block;
+        margin: 8px;
+      }
+    }
+    
+/* Kattalashtirilgan rasm oynasi */
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 15, 40, 0.92);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  padding: 25px;
+}
+
+.lightbox.active {
+  display: flex;
+}
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: 15px;
+}
+
+.lightbox button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.85);
+    color: #102650;
+    font-size: 30px;
+    cursor: pointer;
+    z-index: 10000;
+}
+
+.lightbox button:hover {
+    background: white;
+}
+
+.lightbox button:first-of-type {
+    left: 30px;
+}
+
+.lightbox button:last-of-type {
+    right: 30px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  color: white;
+  font-size: 42px;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+.lightbox button.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    left: auto;
+    z-index: 100;
+}
+.lightbox button:nth-of-type(2) {
+    left: 30px;
+    right: auto;
+}
+
+.lightbox button:nth-of-type(3) {
+    right: 30px;
+    left: auto;
+}
+.site-footer {
+    background: #102650;
+    color: white;
+    padding: 60px 30px 20px;
+    margin-top: 70px;
+}
+
+.footer-container {
+    max-width: 1300px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 35px;
+}
+
+.footer-column h3 {
+    font-size: 23px;
+    margin-bottom: 25px;
+}
+
+.footer-column p,
+.footer-column a {
+    color: #dbe5f1;
+    font-size: 17px;
+    line-height: 1.9;
+}
+
+.footer-column a {
+    display: block;
+    text-decoration: none;
+}
+
+.footer-column a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+.footer-bottom {
+    border-top: 1px solid #344b70;
+    margin-top: 45px;
+    padding-top: 25px;
+    text-align: center;
+    color: #cbd5e1;
+}
+
+@media (max-width: 900px) {
+    .footer-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <a href="index.html">Bosh sahifa</a>
+    <a href="oqituvchilar.html">O‘qituvchilar</a>
+    <a href="galereya.html">Galereya</a>
+  </nav>
+
+  <header>
+    <h1>Maktab galereyasi</h1>
+    <p>13-maktab hayotidan fotolavhalar</p>
+  </header>
+
+  <div class="gallery">
+
+    <div class="photo">
+      <img src="mak.jpg.jpg" alt="Maktabimiz binosi" onclick="openLightbox(this.src)">
+    
+      <h3>Maktabimiz binosi</h3>
+    </div>
+
+    <div class="photo">
+     <img src="mak.jpg.jpg" alt="Maktab hududi" onclick="openLightbox(this.src)">
+
+      <h3>Maktab hududi</h3>
+    </div>
+
+    <div class="photo">
+     <img src="mak.jpg.jpg" alt="Maktab hayoti" onclick="openLightbox(this.src)">
+
+      <h3>Maktab hayoti</h3>
+    </div>
+
+<div class="photo">
+    <video controls style="width: 100%; border-radius: 15px;">
+        <source src="13maktab.mp4" type="video/mp4">
+    </video>
+    <h3>Maktabimiz hayotidan video</h3>
+</div>
+
+  </div>
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+   <button class="close-btn" onclick="closeLightbox()">×</button>
+  <button onclick="changeImage(-1)">❮</button>
+<button onclick="changeImage(1)">❯</button> <img id="lightbox-img" src="" alt="Kattalashtirilgan rasm">
+</div>
+
+<script>
+function openLightbox(src) {
+    document.getElementById("lightbox-img").src = src;
+    document.getElementById("lightbox").classList.add("active");
+}
+
+function closeLightbox() {
+    document.getElementById("lightbox").classList.remove("active");
+}
+
+const images = Array.from(
+    document.querySelectorAll(".gallery .photo img")
+);
+
+let currentImageIndex = 0;
+
+function changeImage(direction) {
+    if (images.length === 0) return;
+
+    const currentSrc =
+        document.getElementById("lightbox-img").src;
+
+    const index = images.findIndex(
+        img => img.src === currentSrc
+    );
+
+    if (index !== -1) {
+        currentImageIndex = index;
+    }
+
+    currentImageIndex =
+        (currentImageIndex + direction + images.length)
+        % images.length;
+
+    document.getElementById("lightbox-img").src =
+        images[currentImageIndex].src;
+}
+</script>
+   
+<footer class="site-footer">
+    <div class="footer-container">
+    
+<div class="footer-column">
+    <h3>13-MAKTAB</h3>
+    <p>Navoiy viloyati, Zarafshon shahri.</p>
+    <p>13-sonli umumiy o'rta ta'lim maktabi.</p>
+</div>
+  
+
+    <div class="footer-column">
+      <h3>Tezkor havolalar</h3>
+      <a href="index.html">Bosh sahifa</a>
+      <a href="yangiliklar.html">Yangiliklar</a>
+      <a href="oqituvchilar.html">O'qituvchilar</a>
+      <a href="galereya.html">Galereya</a>
+      <a href="aloqa.html">Aloqa</a>
+    </div>
+
+    <div class="footer-column">
+      <h3>Bog'lanish</h3>
+      <p>Zarafshon shahri, Navoiy viloyati</p>
+      <p>Telefon: ma'lumot kiritiladi</p>
+      <p>Email: ma'lumot kiritiladi</p>
+    </div>
+
+    <div class="footer-column">
+      <h3>Ijtimoiy tarmoqlar</h3>
+      <p>Instagram: havola kiritiladi</p>
+      <p>Facebook: havola kiritiladi</p>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 13-MAKTAB. Barcha huquqlar himoyalangan.
+  </div>
+</footer>
+</body>
+</html>
