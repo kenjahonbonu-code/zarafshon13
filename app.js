@@ -490,7 +490,11 @@ function adminLogin() {
         <button type="submit" class="btn">Kirish</button>
         <button type="button" id="closeLogin" class="btn">
           Bekor qilish
-        </button>
+          </button>
+
+       <button type="button" id="forgotPassword" class="btn">
+  Parolni unutdingizmi?
+          </button>
         <p id="loginError" role="alert"></p>
       </form>
     </div>
@@ -499,7 +503,24 @@ function adminLogin() {
   document.body.appendChild(box);
 
   document.getElementById("closeLogin").onclick = () => box.remove();
+document.getElementById("forgotPassword").onclick = async () => {
+  const email = document.getElementById("loginEmail").value.trim();
 
+  if (!email) {
+    alert("Avval email manzilingizni kiriting!");
+    return;
+  }
+
+  const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+    redirectTo: "https://kenjahonbonu-code.github.io/zarafshon13/"
+  });
+
+  if (error) {
+    alert("Xatolik: " + error.message);
+  } else {
+    alert("Parolni tiklash xati yuborildi. Emailingizni tekshiring!");
+  }
+};
   document.getElementById("loginForm").onsubmit = async (e) => {
     e.preventDefault();
 
