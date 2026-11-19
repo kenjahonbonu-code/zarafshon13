@@ -26,8 +26,8 @@ const head = (title, sub) => `
   </section>
 `;
 
-const newsCards = () => news.length
-  ? news.map(n => `
+const newsCards = (items = news, emptyMessage = "Hozircha yangiliklar mavjud emas.") => items.length
+  ? items.map(n => `
     <article class="card">
       <div class="card-body">
         <span class="chip">📅 ${esc(n.date)}</span>
@@ -36,7 +36,12 @@ const newsCards = () => news.length
       </div>
     </article>
   `).join("")
-  : `<p>${esc(newsLoadMessage || "Hozircha yangiliklar mavjud emas.")}</p>`;
+  : `<p>${esc(newsLoadMessage || emptyMessage)}</p>`;
+
+const announcementCards = () => newsCards(
+  news.filter(item => item.isAnnouncement),
+  "Hozircha muhim e’lonlar yo‘q."
+);
 
 const pages = {
   home: () => `
@@ -59,6 +64,15 @@ const pages = {
             So‘nggi yangiliklar →
           </a>
         </div>
+      </div>
+    </section>
+
+    <section class="section alt" aria-labelledby="announcementsTitle">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="announcementsTitle">Muhim e’lonlar</h2>
+        </div>
+        <div class="grid" data-announcement-cards>${announcementCards()}</div>
       </div>
     </section>
 
@@ -286,6 +300,10 @@ pages.admin = () => head(
                     placeholder="Yangilik matnini kiriting"></textarea>
         </p>
 
+        <p>
+          <label><input id="newsAnnouncement" type="checkbox"> Bosh sahifada muhim e’lon sifatida ko‘rsatish</label>
+        </p>
+
         <button type="submit" class="btn" id="saveNews">
           Saqlash
         </button>
@@ -309,7 +327,7 @@ function adminRenderList() {
   list.innerHTML = news.length
     ? news.map(n => `
       <article class="card" style="margin-bottom:15px">
-        <small>${esc(n.date)}</small>
+        <small>${esc(n.date)}${n.isAnnouncement ? " · Muhim e’lon" : ""}</small>
         <h3>${esc(n.title)}</h3>
         <p>${esc(n.body)}</p>
         <button class="btn" data-edit="${esc(n.id)}">
@@ -331,6 +349,7 @@ function setupAdmin() {
   const date = document.querySelector("#newsDate");
   const body = document.querySelector("#newsBody");
   const idInput = document.querySelector("#newsId");
+  const announcement = document.querySelector("#newsAnnouncement");
   const cancel = document.querySelector("#cancelEdit");
 
   const saveButton = form.querySelector("#saveNews");
@@ -349,7 +368,8 @@ function setupAdmin() {
     const item = {
       title: title.value.trim(),
       content: body.value.trim(),
-      news_date: date.value
+      news_date: date.value,
+      is_announcement: announcement.checked
     };
     if (!item.title || !item.content || !item.news_date) return;
 
@@ -387,8 +407,11 @@ function setupAdmin() {
         title.value = item.title;
         date.value = item.date;
         body.value = item.body;
+        announcement.checked = item.isAnnouncement;
         cancel.hidden = false;
-        form.scrollIntoView({ behavior: "smooth" });
+        const headerHeight = document.querySelector(".header")?.offsetHeight ?? 0;
+        form.style.scrollMarginTop = (headerHeight + 16) + "px";
+        form.scrollIntoView({ behavior: "smooth", block: "start" });
       }
 
       if (del) {
@@ -442,11 +465,15 @@ async function loadNews() {
       id: row.id,
       title: row.title,
       body: row.content,
+      isAnnouncement: row.is_announcement === true,
       date: row.news_date || (row.created_at || "").slice(0, 10)
     })).sort((first, second) => second.date.localeCompare(first.date));
   }
   document.querySelectorAll("[data-news-cards]").forEach(list => {
     list.innerHTML = newsCards();
+  });
+  document.querySelectorAll("[data-announcement-cards]").forEach(list => {
+    list.innerHTML = announcementCards();
   });
   adminRenderList();
 }
