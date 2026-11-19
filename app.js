@@ -66,6 +66,9 @@ const pages = {
           <a href="#admissions" class="btn light">
             1-sinfga qabul →
           </a>
+          <a href="#clubs" class="btn light">
+            To‘garaklar →
+          </a>
         </div>
       </div>
     </section>
@@ -192,6 +195,32 @@ const pages = {
       <img src="${school}" alt="Maktab binosi" style="width:100%;border-radius:20px">
     </div>
   </div></section>`,
+
+  clubs: () => head(
+    "To‘garaklar",
+    "13-maktabdagi qo‘shimcha mashg‘ulotlar."
+  ) + `<section class="section">
+    <div class="wrap">
+      <article class="card">
+        <div class="card-body">
+          <h2>Informatika va axborot texnologiyalari</h2>
+          <p>Informatika bo‘yicha bilimlarni mustahkamlashga qaratilgan amaliy mashg‘ulotlar.
+             Dasturlash, HTML, kompyuter tarmoqlari, video va animatsiya mavzulari o‘rganiladi.</p>
+          <dl>
+            <dt>To‘garak rahbari</dt>
+            <dd>Sayfiddinova Kenjaxon Qo‘chqarboy qizi</dd>
+            <dt>Mashg‘ulot vaqti</dt>
+            <dd>08:00–09:00</dd>
+            <dt>Mashg‘ulot joyi</dt>
+            <dd>110-xona</dd>
+            <dt>Dastur hajmi</dt>
+            <dd>34 soat</dd>
+          </dl>
+          <p>Mashg‘ulot kunlari va qaysi sinflar qatnashishi haqida to‘garak rahbaridan so‘rashingiz mumkin.</p>
+        </div>
+      </article>
+    </div>
+  </section>`,
 
   admissions: () => head(
     "1-sinfga qabul",
