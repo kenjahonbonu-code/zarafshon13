@@ -240,8 +240,19 @@ const pages = {
 
   contact: () => head(
     "Bog‘lanish",
-    "Navoiy viloyati, Zarafshon shahri."
-  ),
+    "13-maktab manzili va direktor qabuli."
+  ) + `<section class="section">
+    <div class="wrap grid">
+      <article class="card"><div class="card-body">
+        <h2>Manzil</h2>
+        <p>Navoiy viloyati, Zarafshon shahri, 12-mikrorayon</p>
+      </div></article>
+      <article class="card"><div class="card-body">
+        <h2>Direktor qabuli</h2>
+        <p>09:00–12:00</p>
+      </div></article>
+    </div>
+  </section>`,
 
   admin: () => head(
     "Boshqaruv paneli",
