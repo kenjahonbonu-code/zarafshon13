@@ -542,3 +542,70 @@ document.getElementById("forgotPassword").onclick = async () => {
     alert("Tizimga muvaffaqiyatli kirdingiz!");
   };
 }
+
+async function setupPasswordRecovery() {
+  const { data: { subscription } } =
+    supabaseClient.auth.onAuthStateChange((event) => {
+      if (event !== "PASSWORD_RECOVERY") return;
+
+      setTimeout(() => {
+        if (document.getElementById("resetPasswordBox")) return;
+
+        const box = document.createElement("div");
+        box.id = "resetPasswordBox";
+        box.style.cssText =
+          "position:fixed;inset:0;background:#0009;display:flex;align-items:center;justify-content:center;z-index:10000;padding:20px";
+
+        box.innerHTML = `
+          <form id="resetPasswordForm"
+            style="background:white;padding:30px;border-radius:18px;width:100%;max-width:420px">
+            <h2>🔐 Yangi parol o‘rnatish</h2>
+            <input id="newPassword" type="password"
+              placeholder="Yangi parol" minlength="8" required
+              style="width:100%;padding:12px;margin:10px 0;box-sizing:border-box">
+            <input id="confirmPassword" type="password"
+              placeholder="Parolni takrorlang" minlength="8" required
+              style="width:100%;padding:12px;margin:10px 0;box-sizing:border-box">
+            <button type="submit" class="btn">Parolni saqlash</button>
+            <p id="resetError" role="alert"></p>
+          </form>
+        `;
+
+        document.body.appendChild(box);
+
+        document.getElementById("resetPasswordForm").onsubmit =
+          async (e) => {
+            e.preventDefault();
+
+            const password =
+              document.getElementById("newPassword").value;
+            const confirm =
+              document.getElementById("confirmPassword").value;
+            const errorBox =
+              document.getElementById("resetError");
+
+            if (password !== confirm) {
+              errorBox.textContent = "Parollar bir xil emas!";
+              return;
+            }
+
+            const { error } =
+              await supabaseClient.auth.updateUser({
+                password: password
+              });
+
+            if (error) {
+              errorBox.textContent = "Xatolik: " + error.message;
+              return;
+            }
+
+            alert("Parol muvaffaqiyatli yangilandi!");
+            box.remove();
+            await supabaseClient.auth.signOut();
+            history.replaceState(null, "", location.pathname);
+          };
+      }, 0);
+    });
+}
+
+setupPasswordRecovery();
