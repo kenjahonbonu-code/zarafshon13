@@ -63,6 +63,9 @@ const pages = {
           <a href="#news" class="btn light">
             So‘nggi yangiliklar →
           </a>
+          <a href="#admissions" class="btn light">
+            1-sinfga qabul →
+          </a>
         </div>
       </div>
     </section>
@@ -189,6 +192,22 @@ const pages = {
       <img src="${school}" alt="Maktab binosi" style="width:100%;border-radius:20px">
     </div>
   </div></section>`,
+
+  admissions: () => head(
+    "1-sinfga qabul",
+    "Zarafshon shahridagi 13-maktabga farzandini bermoqchi bo‘lgan ota-onalar uchun."
+  ) + `<section class="section">
+    <div class="wrap">
+      <article class="card">
+        <div class="card-body">
+          <h2>Qabul haqida ma’lumot</h2>
+          <p>Qabul sanalari, ariza topshirish tartibi va kerakli hujjatlar ro‘yxati
+             tasdiqlangach, shu sahifada e’lon qilinadi.</p>
+          <a href="#news" class="btn">Maktab yangiliklari →</a>
+        </div>
+      </article>
+    </div>
+  </section>`,
 
   contact: () => head(
     "Bog‘lanish",
