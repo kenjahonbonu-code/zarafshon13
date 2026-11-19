@@ -2,23 +2,8 @@
 const app = document.querySelector("#app");
 const school = "mak.jpg";
 
-const storeKey = "zarafshon13_news_demo_v2";
-const starter = [{
-  id: 1,
-  title: "13-maktab rasmiy saytiga xush kelibsiz!",
-  date: "2026-11-06",
-  body: "Maktab yangiliklari va e'lonlarini shu yerda kuzating."
-}];
-
-let news;
-try {
-  news = JSON.parse(localStorage.getItem(storeKey)) ?? starter;
-  if (!Array.isArray(news)) news = starter;
-} catch {
-  news = starter;
-}
-
-let editing = null;
+let news = [];
+let newsLoadMessage = "Yangiliklar yuklanmoqda…";
 
 const esc = s => String(s ?? "").replace(
   /[&<>"']/g,
@@ -29,10 +14,6 @@ const esc = s => String(s ?? "").replace(
     '"': "&quot;",
     "'": "&#39;"
   }[c])
-);
-
-const save = () => localStorage.setItem(
-  storeKey, JSON.stringify(news)
 );
 
 const head = (title, sub) => `
@@ -55,7 +36,7 @@ const newsCards = () => news.length
       </div>
     </article>
   `).join("")
-  : '<p>Hozircha yangiliklar mavjud emas.</p>';
+  : `<p>${esc(newsLoadMessage || "Hozircha yangiliklar mavjud emas.")}</p>`;
 
 const pages = {
   home: () => `
@@ -145,7 +126,7 @@ const pages = {
           <span class="kicker">MAKTAB HAYOTI</span>
           <h2>So‘nggi yangiliklar</h2>
         </div>
-        <div class="grid">${newsCards()}</div>
+        <div class="grid" data-news-cards>${newsCards()}</div>
         <p><a href="#news" class="btn">Barcha yangiliklar →</a></p>
       </div>
     </section>
@@ -178,7 +159,7 @@ const pages = {
     "Yangiliklar",
     "Maktab hayotidagi so‘nggi xabarlar."
   ) + `<section class="section"><div class="wrap">
-    <div class="grid">${newsCards()}</div>
+    <div class="grid" data-news-cards>${newsCards()}</div>
   </div></section>`,
 
   success: () => head(
@@ -339,7 +320,7 @@ function adminRenderList() {
         </button>
       </article>
     `).join("")
-    : "<p>Yangiliklar mavjud emas.</p>";
+    : `<p>${esc(newsLoadMessage || "Yangiliklar mavjud emas.")}</p>`;
 }
 
 function setupAdmin() {
@@ -352,55 +333,47 @@ function setupAdmin() {
   const idInput = document.querySelector("#newsId");
   const cancel = document.querySelector("#cancelEdit");
 
+  const saveButton = form.querySelector("#saveNews");
   const resetForm = () => {
     form.reset();
     idInput.value = "";
+    date.value = new Date().toLocaleDateString("sv-SE", { timeZone: "Asia/Tashkent" });
     cancel.hidden = true;
   };
 
-  date.value = new Date().toLocaleDateString("en-CA");
+  resetForm();
 
   form.addEventListener("submit", async e => {
     e.preventDefault();
-
+    const id = idInput.value;
     const item = {
-      id: idInput.value || String(Date.now()),
       title: title.value.trim(),
-      date: date.value,
-      body: body.value.trim()
+      content: body.value.trim(),
+      news_date: date.value
     };
+    if (!item.title || !item.content || !item.news_date) return;
 
-    if (!item.title || !item.date || !item.body) return;
-
-    if (idInput.value) {
-      news = news.map(n =>
-        String(n.id) === idInput.value ? item : n
-      );
-    } else {
-      news.unshift(item);
+    saveButton.disabled = true;
+    try {
+      const table = supabaseClient.from("news");
+      const query = id ? table.update(item).eq("id", id) : table.insert(item);
+      const { error } = await query.select("id").single();
+      if (error) {
+        alert("Saqlashda xatolik: " + error.message);
+        return;
+      }
+      resetForm();
+      await loadNews();
+      alert("Yangilik saqlandi!");
+    } finally {
+      saveButton.disabled = false;
     }
-
-   const { error } = await supabaseClient
-  .from("news")
-  .insert({
-    title: item.title,
-    content: item.body
-  });
-
-if (error) {
-  console.error("Supabase xatosi:", error);
-  alert("Supabase'ga saqlashda xatolik: " + error.message);
-  return;
-}
-    resetForm();
-    adminRenderList();
-    alert("Yangilik saqlandi!");
   });
 
   cancel.onclick = resetForm;
 
   document.querySelector("#adminNewsList")
-    .addEventListener("click", e => {
+    .addEventListener("click", async e => {
       const edit = e.target.closest("[data-edit]");
       const del = e.target.closest("[data-delete]");
 
@@ -420,11 +393,19 @@ if (error) {
 
       if (del) {
         if (!confirm("Yangilik o‘chirilsinmi?")) return;
-        news = news.filter(n =>
-          String(n.id) !== del.dataset.delete
-        );
-        save();
-        adminRenderList();
+        del.disabled = true;
+        try {
+          const { error } = await supabaseClient.from("news")
+            .delete().eq("id", del.dataset.delete).select("id").single();
+          if (error) {
+            alert("O‘chirishda xatolik: " + error.message);
+            return;
+          }
+          if (idInput.value === del.dataset.delete) resetForm();
+          await loadNews();
+        } finally {
+          del.disabled = false;
+        }
       }
     });
 
@@ -450,18 +431,27 @@ const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
-supabaseClient
-  .from("news")
-  .select("*")
-  .limit(1)
-  .then(({ data, error }) => {
-    if (error) {
-      console.error("Supabase xatosi:", error.message);
-    } else {
-      console.log("Supabase ulanishi muvaffaqiyatli!", data);
-    }
+async function loadNews() {
+  const { data, error } = await supabaseClient.from("news").select("*");
+  if (error) {
+    news = [];
+    newsLoadMessage = "Yangiliklarni yuklashda xatolik: " + error.message;
+  } else {
+    newsLoadMessage = "";
+    news = data.map(row => ({
+      id: row.id,
+      title: row.title,
+      body: row.content,
+      date: row.news_date || (row.created_at || "").slice(0, 10)
+    })).sort((first, second) => second.date.localeCompare(first.date));
+  }
+  document.querySelectorAll("[data-news-cards]").forEach(list => {
+    list.innerHTML = newsCards();
   });
+  adminRenderList();
+}
 
+loadNews();
 
 function adminLogin() {
   if (document.getElementById("adminLoginBox")) return;
