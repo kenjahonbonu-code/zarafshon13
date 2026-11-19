@@ -546,8 +546,10 @@ document.getElementById("forgotPassword").onclick = async () => {
 async function setupPasswordRecovery() {
   const { data: { subscription } } =
     supabaseClient.auth.onAuthStateChange((event) => {
-      if (event !== "PASSWORD_RECOVERY") return;
-
+      if (
+  event !== "PASSWORD_RECOVERY" &&
+  !(event === "SIGNED_IN" && location.hash.includes("type=recovery"))
+) return;
       setTimeout(() => {
         if (document.getElementById("resetPasswordBox")) return;
 
