@@ -509,7 +509,136 @@ function renderWithAdmin() {
 window.removeEventListener("hashchange", render);
 window.addEventListener("hashchange", renderWithAdmin);
 renderWithAdmin();
-// Supabase bilan ulanish
+const originalHome = pages.home;
+
+pages.home = () => originalHome().replace(
+  /<section class="hero">[\s\S]*?<\/section>/,
+  `
+  <style>
+    .hero.school-cover {
+      min-height: 420px;
+      display: grid;
+      align-items: center;
+      padding: 55px 8%;
+      background:
+        linear-gradient(90deg, #0b203d 10%, #0b203de8 32%, #0b203d12 78%),
+        url("mak.jpg") right center / cover no-repeat;
+    }
+    .school-cover .hero-inner { width: 100%; }
+    .school-cover h1 {
+      margin: 0;
+      color: #ffe0a3;
+      font: bold clamp(52px, 8vw, 110px)/1 Georgia, serif;
+    }
+    .school-cover p { font: clamp(22px, 3vw, 38px)/1.3 Georgia, serif; }
+    .school-links {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin: 30px auto;
+    }
+    .school-links a {
+      display: grid;
+      justify-items: center;
+      gap: 12px;
+      padding: 22px 10px;
+      background: #fffaf0;
+      border: 1px solid #c49347;
+      border-radius: 18px;
+      color: #0b203d;
+      text-align: center;
+      font: bold clamp(16px, 2vw, 25px)/1.2 Georgia, serif;
+    }
+    .school-links a:hover, .school-links a:focus-visible {
+      background: #f7e8c9;
+      outline: 2px solid #157776;
+    }
+    .school-links span {
+      display: grid;
+      place-items: center;
+      width: clamp(66px, 9vw, 112px);
+      aspect-ratio: 1;
+      border: 3px solid #d7aa57;
+      border-radius: 50%;
+      background: radial-gradient(circle at top, #24616b, #0b203d 70%);
+      font-size: clamp(30px, 5vw, 58px);
+    }
+    @media (max-width: 650px) {
+      .school-links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+  </style>
+  <section class="hero school-cover">
+    <div class="hero-inner">
+      <h1>13-maktab</h1>
+      <p>Zarafshon shahri</p>
+      <a class="btn yellow" href="#admissions">1-sinfga qabul →</a>
+    </div>
+  </section>
+  <div class="wrap school-links">
+    <a href="#announcements"><span aria-hidden="true">🔔</span>Muhim e’lonlar</a>
+    <a href="#admissions"><span aria-hidden="true">📖</span>1-sinfga qabul</a>
+    <a href="#clubs"><span aria-hidden="true">⚗️</span>To‘garaklar</a>
+    <a href="#gallery"><span aria-hidden="true">📷</span>Galereya</a>
+  </div>
+  `
+);
+
+pages.announcements = () => `
+  <section class="section" aria-labelledby="announcementsTitle">
+    <div class="wrap">
+      <h1 id="announcementsTitle">Muhim e’lonlar</h1>
+      <div class="grid" data-announcement-cards>${announcementCards()}</div>
+    </div>
+  </section>
+`;
+
+renderWithAdmin();
+const educationGuide = `
+  <section class="section" aria-labelledby="educationGuideTitle"
+           style="background:#fbf7ef">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="educationGuideTitle">Ta’lim qo‘llanmasi</h2>
+        <p>Ota-onalar va o‘quvchilar uchun qisqa javoblar</p>
+      </div>
+      <div class="grid">
+        <details class="card">
+          <summary><strong>1-sinfga qabul haqida qayerdan bilaman?</strong></summary>
+          <p>Qabul sanalari va hujjatlar bo‘yicha ma’lumotlar maktabning qabul sahifasida e’lon qilinadi.</p>
+          <a href="#admissions">Qabul sahifasini ochish →</a>
+        </details>
+        <details class="card">
+          <summary><strong>Ta’limga oid qonunni qayerdan o‘qiyman?</strong></summary>
+          <p>«Ta’lim to‘g‘risida»gi O‘RQ-637-son Qonunning rasmiy matni LexUZ’da joylashgan.</p>
+          <a href="https://lex.uz/docs/-5013007">Qonunni LexUZ’da o‘qish →</a>
+        </details>
+        <details class="card">
+          <summary><strong>Maktab rahbariyatiga qanday murojaat qilaman?</strong></summary>
+          <p>Maktab manzili va direktorning qabul vaqti «Bog‘lanish» sahifasida ko‘rsatilgan.</p>
+          <a href="#contact">Bog‘lanish sahifasini ochish →</a>
+        </details>
+      </div>
+    </div>
+  </section>
+`;
+
+const homeBeforeEducationGuide = pages.home;
+
+pages.home = () => homeBeforeEducationGuide()
+  .replace(
+    '<span aria-hidden="true">🔔</span>Muhim e’lonlar',
+    '<span aria-hidden="true">📚</span>Ta’lim qo‘llanmasi'
+  )
+  .replace(
+    /<section class="section alt" aria-labelledby="announcementsTitle">[\s\S]*?<\/section>/,
+    educationGuide
+  );
+
+pages.announcements = () =>
+  head("Ta’lim qo‘llanmasi", "Qabul, rasmiy hujjatlar va maktab bilan bog‘lanish.") +
+  educationGuide;
+
+renderWithAdmin();// Supabase bilan ulanish
 const SUPABASE_URL = "https://gruqoodldhswlnkptpyo.supabase.co";
 
 const SUPABASE_KEY = "sb_publishable_AEZWu5rpkZKKvrumLzwAPA_LB-_lFb0"
@@ -704,133 +833,4 @@ supabaseClient.auth.onAuthStateChange((event, session) => {
   canManageNews = isAdmin;
   if (location.hash === "#admin") renderWithAdmin();
 });
-const originalHome = pages.home;
 
-pages.home = () => originalHome().replace(
-  /<section class="hero">[\s\S]*?<\/section>/,
-  `
-  <style>
-    .hero.school-cover {
-      min-height: 420px;
-      display: grid;
-      align-items: center;
-      padding: 55px 8%;
-      background:
-        linear-gradient(90deg, #0b203d 10%, #0b203de8 32%, #0b203d12 78%),
-        url("mak.jpg") right center / cover no-repeat;
-    }
-    .school-cover .hero-inner { width: 100%; }
-    .school-cover h1 {
-      margin: 0;
-      color: #ffe0a3;
-      font: bold clamp(52px, 8vw, 110px)/1 Georgia, serif;
-    }
-    .school-cover p { font: clamp(22px, 3vw, 38px)/1.3 Georgia, serif; }
-    .school-links {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
-      margin: 30px auto;
-    }
-    .school-links a {
-      display: grid;
-      justify-items: center;
-      gap: 12px;
-      padding: 22px 10px;
-      background: #fffaf0;
-      border: 1px solid #c49347;
-      border-radius: 18px;
-      color: #0b203d;
-      text-align: center;
-      font: bold clamp(16px, 2vw, 25px)/1.2 Georgia, serif;
-    }
-    .school-links a:hover, .school-links a:focus-visible {
-      background: #f7e8c9;
-      outline: 2px solid #157776;
-    }
-    .school-links span {
-      display: grid;
-      place-items: center;
-      width: clamp(66px, 9vw, 112px);
-      aspect-ratio: 1;
-      border: 3px solid #d7aa57;
-      border-radius: 50%;
-      background: radial-gradient(circle at top, #24616b, #0b203d 70%);
-      font-size: clamp(30px, 5vw, 58px);
-    }
-    @media (max-width: 650px) {
-      .school-links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-  </style>
-  <section class="hero school-cover">
-    <div class="hero-inner">
-      <h1>13-maktab</h1>
-      <p>Zarafshon shahri</p>
-      <a class="btn yellow" href="#admissions">1-sinfga qabul →</a>
-    </div>
-  </section>
-  <div class="wrap school-links">
-    <a href="#announcements"><span aria-hidden="true">🔔</span>Muhim e’lonlar</a>
-    <a href="#admissions"><span aria-hidden="true">📖</span>1-sinfga qabul</a>
-    <a href="#clubs"><span aria-hidden="true">⚗️</span>To‘garaklar</a>
-    <a href="#gallery"><span aria-hidden="true">📷</span>Galereya</a>
-  </div>
-  `
-);
-
-pages.announcements = () => `
-  <section class="section" aria-labelledby="announcementsTitle">
-    <div class="wrap">
-      <h1 id="announcementsTitle">Muhim e’lonlar</h1>
-      <div class="grid" data-announcement-cards>${announcementCards()}</div>
-    </div>
-  </section>
-`;
-
-renderWithAdmin();
-const educationGuide = `
-  <section class="section" aria-labelledby="educationGuideTitle"
-           style="background:#fbf7ef">
-    <div class="wrap">
-      <div class="section-head">
-        <h2 id="educationGuideTitle">Ta’lim qo‘llanmasi</h2>
-        <p>Ota-onalar va o‘quvchilar uchun qisqa javoblar</p>
-      </div>
-      <div class="grid">
-        <details class="card">
-          <summary><strong>1-sinfga qabul haqida qayerdan bilaman?</strong></summary>
-          <p>Qabul sanalari va hujjatlar bo‘yicha ma’lumotlar maktabning qabul sahifasida e’lon qilinadi.</p>
-          <a href="#admissions">Qabul sahifasini ochish →</a>
-        </details>
-        <details class="card">
-          <summary><strong>Ta’limga oid qonunni qayerdan o‘qiyman?</strong></summary>
-          <p>«Ta’lim to‘g‘risida»gi O‘RQ-637-son Qonunning rasmiy matni LexUZ’da joylashgan.</p>
-          <a href="https://lex.uz/docs/-5013007">Qonunni LexUZ’da o‘qish →</a>
-        </details>
-        <details class="card">
-          <summary><strong>Maktab rahbariyatiga qanday murojaat qilaman?</strong></summary>
-          <p>Maktab manzili va direktorning qabul vaqti «Bog‘lanish» sahifasida ko‘rsatilgan.</p>
-          <a href="#contact">Bog‘lanish sahifasini ochish →</a>
-        </details>
-      </div>
-    </div>
-  </section>
-`;
-
-const homeBeforeEducationGuide = pages.home;
-
-pages.home = () => homeBeforeEducationGuide()
-  .replace(
-    '<span aria-hidden="true">🔔</span>Muhim e’lonlar',
-    '<span aria-hidden="true">📚</span>Ta’lim qo‘llanmasi'
-  )
-  .replace(
-    /<section class="section alt" aria-labelledby="announcementsTitle">[\s\S]*?<\/section>/,
-    educationGuide
-  );
-
-pages.announcements = () =>
-  head("Ta’lim qo‘llanmasi", "Qabul, rasmiy hujjatlar va maktab bilan bog‘lanish.") +
-  educationGuide;
-
-renderWithAdmin();
