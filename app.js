@@ -324,22 +324,18 @@ render();
 
 /* Admin panel: yangiliklarni boshqarish */
 
+const newsAdminId = "71e17b5f-1b06-4960-9946-88ee47a5f6df";
+let canManageNews = false;
+
 pages.admin = () => head(
   "Boshqaruv paneli",
   "Yangiliklarni qo‘shish va boshqarish."
-) + `
+) + (canManageNews ? `
 <section class="section">
   <div class="wrap">
     <div class="card">
       <h2>📝 Yangilik qo‘shish</h2>
-
-
-
-<button type="button" class="btn" onclick="adminLogin()">
-  🔐 Administrator sifatida kirish
-</button>
-
-<form id="newsForm">
+      <form id="newsForm">
         <input type="hidden" id="newsId">
 
         <p>
@@ -377,7 +373,15 @@ pages.admin = () => head(
     <div id="adminNewsList"></div>
   </div>
 </section>
-`;
+` : `
+<section class="section">
+  <div class="wrap">
+    <button type="button" class="btn" onclick="adminLogin()">
+      🔐 Administrator sifatida kirish
+    </button>
+  </div>
+</section>
+`);
 
 function adminRenderList() {
   const list = document.querySelector("#adminNewsList");
@@ -604,13 +608,18 @@ document.getElementById("forgotPassword").onclick = async () => {
     const password = document.getElementById("loginPassword").value;
     const errorBox = document.getElementById("loginError");
 
-    const { error } = await supabaseClient.auth.signInWithPassword({
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
       email,
       password
     });
 
     if (error) {
       errorBox.textContent = "Kirishda xatolik: " + error.message;
+      return;
+    }
+
+    if (data.user?.id !== newsAdminId) {
+      errorBox.textContent = "Bu akkauntda yangiliklarni boshqarish ruxsati yo‘q.";
       return;
     }
 
@@ -687,3 +696,11 @@ async function setupPasswordRecovery() {
 }
 
 setupPasswordRecovery();
+
+supabaseClient.auth.onAuthStateChange((event, session) => {
+  const isAdmin = event !== "PASSWORD_RECOVERY" && session?.user?.id === newsAdminId;
+  if (canManageNews === isAdmin) return;
+
+  canManageNews = isAdmin;
+  if (location.hash === "#admin") renderWithAdmin();
+});
