@@ -630,3 +630,47 @@ footer {
 #adminNewsList button {
   margin: 12px 10px 0 0;
 }
+/* 13-maktab uchun ko‘k va oltin uslub */
+body {
+  background: #fbf7ef;
+}
+
+.topbar, .header, footer {
+  background: #0b203d;
+  color: #fff7e4;
+}
+
+.header, .hero {
+  border-bottom: 3px solid #d7aa57;
+}
+
+.brandmark, .hero .btn.yellow {
+  background: linear-gradient(135deg, #fff0b8, #dfad54);
+  color: #172b44;
+}
+
+.brand small {
+  color: #f4d489;
+}
+
+.header nav a:hover, .header nav a.active {
+  background: #f5d28b;
+  color: #142844;
+}
+
+.hero {
+  background:
+    linear-gradient(90deg, #0b203d 0%, #102b4ee6 28%, #102b4e38 100%),
+    url("mak.jpg") center / cover no-repeat;
+}
+
+.hero h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  color: #ffe0a3;
+}
+
+@media (max-width: 1000px) {
+  .header nav {
+    background: #0b203d;
+  }
+}
