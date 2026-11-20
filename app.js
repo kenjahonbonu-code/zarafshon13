@@ -788,3 +788,49 @@ pages.announcements = () => `
 `;
 
 renderWithAdmin();
+const educationGuide = `
+  <section class="section" aria-labelledby="educationGuideTitle"
+           style="background:#fbf7ef">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="educationGuideTitle">Ta’lim qo‘llanmasi</h2>
+        <p>Ota-onalar va o‘quvchilar uchun qisqa javoblar</p>
+      </div>
+      <div class="grid">
+        <details class="card">
+          <summary><strong>1-sinfga qabul haqida qayerdan bilaman?</strong></summary>
+          <p>Qabul sanalari va hujjatlar bo‘yicha ma’lumotlar maktabning qabul sahifasida e’lon qilinadi.</p>
+          <a href="#admissions">Qabul sahifasini ochish →</a>
+        </details>
+        <details class="card">
+          <summary><strong>Ta’limga oid qonunni qayerdan o‘qiyman?</strong></summary>
+          <p>«Ta’lim to‘g‘risida»gi O‘RQ-637-son Qonunning rasmiy matni LexUZ’da joylashgan.</p>
+          <a href="https://lex.uz/docs/-5013007">Qonunni LexUZ’da o‘qish →</a>
+        </details>
+        <details class="card">
+          <summary><strong>Maktab rahbariyatiga qanday murojaat qilaman?</strong></summary>
+          <p>Maktab manzili va direktorning qabul vaqti «Bog‘lanish» sahifasida ko‘rsatilgan.</p>
+          <a href="#contact">Bog‘lanish sahifasini ochish →</a>
+        </details>
+      </div>
+    </div>
+  </section>
+`;
+
+const homeBeforeEducationGuide = pages.home;
+
+pages.home = () => homeBeforeEducationGuide()
+  .replace(
+    '<span aria-hidden="true">🔔</span>Muhim e’lonlar',
+    '<span aria-hidden="true">📚</span>Ta’lim qo‘llanmasi'
+  )
+  .replace(
+    /<section class="section alt" aria-labelledby="announcementsTitle">[\s\S]*?<\/section>/,
+    educationGuide
+  );
+
+pages.announcements = () =>
+  head("Ta’lim qo‘llanmasi", "Qabul, rasmiy hujjatlar va maktab bilan bog‘lanish.") +
+  educationGuide;
+
+renderWithAdmin();
