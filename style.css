@@ -674,3 +674,80 @@ body {
     background: #0b203d;
   }
 }
+/* 13-maktab — bosh banner va tezkor havolalar */
+#app .hero.school-cover {
+  min-height: clamp(420px, 37vw, 590px);
+  padding: 64px 8%;
+  border-bottom: 3px solid #d7aa57;
+  background:
+    linear-gradient(90deg, #0b203d 22%, #0b203de8 39%, #0b203d00 72%),
+    url("mak.jpg") right 48% / 75% auto no-repeat,
+    #0b203d;
+}
+
+#app .school-cover::after {
+  display: none;
+}
+
+#app .school-cover h1 {
+  color: #ffda88;
+  letter-spacing: -.04em;
+}
+
+#app .school-cover p {
+  margin: 14px 0 28px;
+  color: #fff7e6;
+}
+
+#app .school-cover .btn.yellow {
+  border: 1px solid #ffeabc;
+  box-shadow: 0 8px 24px #030d2366;
+}
+
+#app .school-links {
+  gap: clamp(12px, 2vw, 26px);
+  margin-block: 36px 44px;
+}
+
+#app .school-links a {
+  align-content: center;
+  min-height: 194px;
+  padding: 24px 12px;
+  border-color: #dabb82;
+  background: linear-gradient(150deg, #fffdf8, #f8eedc);
+  box-shadow: 0 8px 26px #0b203d12;
+}
+
+#app .school-links a span {
+  border: 4px double #edc577;
+  background: radial-gradient(circle at 30% 22%, #286f75, #0b203d 72%);
+  box-shadow: 0 5px 12px #091a3440, inset 0 0 0 3px #ffffff16;
+}
+
+#app .school-links a:hover,
+#app .school-links a:focus-visible {
+  border-color: #91713b;
+  background: #fff5df;
+  box-shadow: 0 12px 28px #0b203d22;
+}
+
+@media (max-width: 760px) {
+  #app .hero.school-cover {
+    min-height: 440px;
+    align-items: end;
+    padding: 32px 6%;
+    background:
+      linear-gradient(0deg, #0b203d 4%, #0b203de8 29%, #0b203d00 83%),
+      url("mak.jpg") center / cover no-repeat,
+      #0b203d;
+  }
+
+  #app .school-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #app .school-links a {
+    min-height: 150px;
+    padding: 16px 8px;
+  }
+}
