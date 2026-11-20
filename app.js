@@ -152,16 +152,33 @@ const pages = {
     </section>
   `,
 
-  about: () => head(
+   about: () => head(
     "Maktabimiz haqida",
-    "Ta’lim va tarbiya maskani."
+    "Zarafshon shahridagi 13-maktab bilan tanishing."
   ) + `
     <section class="section">
       <div class="wrap feature">
-        <img src="${school}" alt="13-maktab">
+        <div class="video-preview">
+          <img src="\${school}" alt="Zarafshon shahridagi 13-maktab binosi">
+          <button class="video-play" id="openSchoolVideo"
+                  type="button" aria-label="Maktabimiz videosini ko‘rish">
+            ▶
+          </button>
+          <span class="video-caption">▶ Maktabimiz videosi</span>
+        </div>
         <div>
-          <h2>13-maktab — bilim maskani</h2>
-          <p>Zarafshon shahridagi umumiy o‘rta ta’lim maktabi.</p>
+          <h2>13-maktab — bilim va tarbiya maskani</h2>
+          <p>
+            13-maktab Navoiy viloyatining Zarafshon shahrida joylashgan.
+            Maktabimizda ayrim fanlar chuqur o‘qitiladigan sinflar mavjud.
+          </p>
+          <p>
+            Dars jarayonida o‘quvchilarning mustaqil fikrlashi, savol berishi
+            va olgan bilimlarini amalda qo‘llashiga e’tibor qaratamiz.
+            To‘garaklar esa ularga qiziqqan yo‘nalishini chuqurroq
+            o‘rganish imkonini beradi.
+          </p>
+          <a class="btn" href="#clubs">To‘garaklar bilan tanishing →</a>
         </div>
       </div>
     </section>
