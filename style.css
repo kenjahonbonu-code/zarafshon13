@@ -888,3 +888,71 @@ body {
     padding: 16px 8px;
   }
 }
+/* Ta’lim qo‘llanmasi — oltin hoshiyali kartochkalar */
+#app [aria-labelledby="educationGuideTitle"] .grid {
+  align-items: start;
+}
+
+#app [aria-labelledby="educationGuideTitle"] .grid > details.card {
+  min-height: 0;
+  padding: 24px;
+  border: 1px solid #dabb82;
+  border-radius: 22px;
+  background: linear-gradient(145deg, #fffefa, #f7ebd4);
+  box-shadow: 0 10px 26px #0b203d14;
+}
+
+#app [aria-labelledby="educationGuideTitle"] .grid > details.card::before {
+  background: linear-gradient(90deg, #a67535, #f4d68c, #32978e);
+}
+
+#app [aria-labelledby="educationGuideTitle"] summary {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  list-style: none;
+  color: #102746;
+  cursor: pointer;
+}
+
+#app [aria-labelledby="educationGuideTitle"] summary::-webkit-details-marker {
+  display: none;
+}
+
+#app [aria-labelledby="educationGuideTitle"] summary::before {
+  content: "📖" / "";
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border: 3px double #f2cd7e;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 22%, #287575, #102746 72%);
+  color: #ffe0a1;
+  font-size: 24px;
+}
+
+#app [aria-labelledby="educationGuideTitle"] details:nth-child(2) summary::before {
+  content: "⚖" / "";
+}
+
+#app [aria-labelledby="educationGuideTitle"] details:nth-child(3) summary::before {
+  content: "✉" / "";
+}
+
+#app [aria-labelledby="educationGuideTitle"] summary::after {
+  content: "+" / "";
+  color: #795421;
+  font-size: 24px;
+}
+
+#app [aria-labelledby="educationGuideTitle"] details[open] summary::after {
+  content: "−" / "";
+}
+
+#app [aria-labelledby="educationGuideTitle"] details a {
+  color: #155653;
+  font-weight: bold;
+  text-decoration: underline;
+}
