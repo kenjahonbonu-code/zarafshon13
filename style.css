@@ -833,3 +833,58 @@ body {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+/* Bosh sahifa — pastki to‘rtta oltin kartochka */
+#app .stats {
+  gap: clamp(12px, 2vw, 24px);
+  margin: 0 auto 36px;
+}
+
+#app .stats .stat {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 14px;
+  min-width: 0;
+  min-height: 184px;
+  padding: 20px 12px;
+  border: 1px solid #dabb82;
+  border-radius: 24px;
+  background: linear-gradient(145deg, #fffefa, #f7ebd4);
+  box-shadow: 0 10px 28px #0b203d16;
+  text-align: center;
+}
+
+#app .stats .stat::before {
+  background: linear-gradient(90deg, #a67535, #f4d68c, #a67535);
+}
+
+#app .stats .stat strong {
+  display: grid;
+  place-items: center;
+  width: clamp(64px, 7vw, 96px);
+  aspect-ratio: 1;
+  border: 4px double #f2cd7e;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 23%, #277575, #102746 68%);
+  box-shadow: 0 6px 14px #0b203d30, inset 0 0 0 3px #fff2cc22;
+  color: #ffe0a1;
+  font: bold clamp(30px, 4vw, 44px)/1 Georgia, serif;
+  text-shadow: 0 3px 6px #06182c80;
+}
+
+#app .stats .stat span {
+  color: #142c4a;
+  font: bold clamp(15px, 1.7vw, 21px)/1.25 Georgia, serif;
+}
+
+@media (max-width: 750px) {
+  #app .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #app .stats .stat {
+    min-height: 145px;
+    padding: 16px 8px;
+  }
+}
