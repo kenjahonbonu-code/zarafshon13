@@ -813,3 +813,23 @@ body {
   border: 1px solid #dfc28b;
   box-shadow: 0 10px 28px #0b203d19;
 }
+/* Bosh sahifadagi to‘rtta ikonkali kartochka */
+#app .school-links {
+  width: 90%;
+  max-width: 1200px;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+#app .school-links > a {
+  min-width: 0;
+  height: 100%;
+}
+
+@media (max-width: 760px) {
+  #app .school-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
