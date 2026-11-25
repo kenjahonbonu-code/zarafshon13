@@ -296,15 +296,16 @@ const pages = {
     "Bog‘lanish",
     "13-maktab manzili va direktor qabuli."
   ) + `<section class="section">
-    <div class="wrap grid">
-      <article class="card"><div class="card-body">
+    <div class="wrap feature">
+      <img src="${school}" alt="Zarafshon shahridagi 13-maktab binosi">
+      <article class="card">
         <h2>Manzil</h2>
-        <p>Navoiy viloyati, Zarafshon shahri, 12-mikrorayon</p>
-      </div></article>
-      <article class="card"><div class="card-body">
+        <p>Navoiy viloyati, Zarafshon shahri, Navro‘z mahallasi, 12-kichik tuman</p>
+        <a class="btn" href="https://yandex.uz/maps/org/13_sonli_maktab/92402922062/"
+           target="_blank" rel="noopener noreferrer">Yo‘lni ko‘rish ↗</a>
         <h2>Direktor qabuli</h2>
         <p>09:00–12:00</p>
-      </div></article>
+      </article>
     </div>
   </section>`,
 
