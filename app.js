@@ -1,6 +1,12 @@
 
 const app = document.querySelector("#app");
 const school = "mak.jpg";
+const directorProfile = {
+  name: "Hotamova Zilola Akramovna",
+  role: "Maktab direktori",
+  officeHours: "09:00–12:00",
+  photo: "dir.jpg"
+};
 
 let news = [];
 let newsLoadMessage = "Yangiliklar yuklanmoqda…";
@@ -43,9 +49,30 @@ const announcementCards = () => newsCards(
   "Hozircha muhim e’lonlar yo‘q."
 );
 
+function directorDialog() {
+  return `
+    <dialog id="directorDialog" aria-labelledby="directorName"
+            style="width:min(460px,calc(100% - 2rem));max-height:calc(100% - 2rem);
+                   padding:24px;border:1px solid #d7aa57;border-radius:20px;
+                   background:#fffcf6;color:#0b203d;box-sizing:border-box;
+                   box-shadow:0 20px 60px #0b203d40">
+      <form method="dialog" style="display:flex;justify-content:flex-end;margin-bottom:12px">
+        <button type="submit" class="btn light" autofocus>Yopish</button>
+      </form>
+      <span data-director-initials aria-hidden="true"
+            style="padding:12px;border-radius:50%;background:#f5d28b;font-weight:700">HZ</span>
+      <img hidden data-director-photo alt="${directorProfile.name}"
+           style="width:100%;max-width:240px;max-height:300px;object-fit:contain;border-radius:14px">
+      <h2 id="directorName" style="margin-bottom:6px">${directorProfile.name}</h2>
+      <p>${directorProfile.role}</p>
+      <h3>Qabul vaqti</h3>
+      <p>${directorProfile.officeHours}</p>
+    </dialog>`;
+}
+
 function renderTeam() {
   const leadership = [
-    ["Hotamova Zilola Akramovna", "Maktab direktori"],
+    [directorProfile.name, directorProfile.role],
     ["Rajabova Shahnoza Fattullayevna", "Direktor o‘rinbosari"],
     ["Kurbonova Nodira Aminovna", "Direktor o‘rinbosari"],
     ["Naimova Latofat Foxirovna", "Direktor o‘rinbosari"]
@@ -75,6 +102,8 @@ function renderTeam() {
             color:#0b203d;font-weight:700">${initials}</span>
           <h3 style="color:inherit;margin:14px 0 6px">${name}</h3>
           <p style="color:inherit;margin:0">${role}</p>
+          ${director ? `<button type="button" class="btn yellow" data-open-director
+                                aria-haspopup="dialog" style="margin-top:14px">Direktor haqida</button>` : ""}
         </article>`;
     }
   ).join("");
@@ -89,7 +118,7 @@ function renderTeam() {
         <h2 style="margin-top:42px">Pedagoglar jamoasi</h2>
         <div style="${teamGrid}">${teamCards(teachers)}</div>
       </div>
-    </section>`;
+    </section>${directorDialog()}`;
 }
 
 const pages = {
@@ -305,14 +334,16 @@ const pages = {
       </div></article>
       <article class="card"><div class="card-body">
         <h2>Direktor qabuli</h2>
-        <p>09:00–12:00</p>
+        <p>${directorProfile.officeHours}</p>
+        <button type="button" class="btn" data-open-director
+                aria-haspopup="dialog">Direktor haqida</button>
       </div></article>
     </div>
     <div class="wrap" style="margin-top:24px">
       <img src="${school}" alt="Zarafshon shahridagi 13-maktab binosi"
            style="display:block;width:100%;max-width:640px;height:auto;border-radius:22px">
     </div>
-  </section>`,
+  </section>${directorDialog()}`,
 
   admin: () => head(
     "Boshqaruv paneli",
@@ -353,6 +384,21 @@ function render() {
 
   const play = document.querySelector("#openSchoolVideo");
   if (play) play.onclick = openSchoolVideo;
+
+  const openDirector = app.querySelector("[data-open-director]");
+  if (openDirector) {
+    const dialog = app.querySelector("#directorDialog");
+    const photo = dialog.querySelector("[data-director-photo]");
+    const initials = dialog.querySelector("[data-director-initials]");
+    photo.onload = () => {
+      photo.hidden = false;
+      initials.hidden = true;
+    };
+    openDirector.onclick = () => {
+      if (!photo.hasAttribute("src")) photo.src = directorProfile.photo;
+      dialog.showModal();
+    };
+  }
 
   window.scrollTo(0, 0);
 }
