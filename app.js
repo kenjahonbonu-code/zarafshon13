@@ -49,6 +49,44 @@ const announcementCards = () => newsCards(
   "Hozircha muhim e’lonlar yo‘q."
 );
 
+const schoolSocials = [
+  {
+    name: "Telegram",
+    url: "https://t.me/+N1kLWJvTBv41MTdi",
+    icon: `<span aria-hidden="true" style="display:inline-grid;place-items:center;
+      width:26px;height:26px;border-radius:50%;background:#007cad">
+      <span style="width:15px;height:15px;background:white;
+        clip-path:polygon(0 39%,100% 3%,80% 95%,51% 68%,35% 84%,39% 58%,84% 20%,28% 51%)"></span>
+    </span>`
+  },
+  {
+    name: "Instagram videosi",
+    url: "https://www.instagram.com/reel/Dd0-wA6oFBK/",
+    icon: `<span aria-hidden="true" style="display:inline-grid;place-items:center;
+      position:relative;width:26px;height:26px;border:2px solid #b3276b;border-radius:8px;color:#b3276b">
+      <span style="width:10px;height:10px;border:2px solid currentColor;border-radius:50%"></span>
+      <span style="position:absolute;top:3px;right:3px;width:3px;height:3px;
+        border-radius:50%;background:currentColor"></span>
+    </span>`
+  },
+  {
+    name: "Facebook",
+    url: "https://www.facebook.com/share/16T4wk9szft/",
+    icon: `<span aria-hidden="true" style="display:inline-grid;place-items:center;
+      width:26px;height:26px;border-radius:50%;background:#0866ff;color:white;
+      font:bold 22px Arial,sans-serif">f</span>`
+  }
+];
+
+function schoolSocialLinks() {
+  return schoolSocials.map(({name, url, icon}) => `
+    <a href="${esc(url)}" target="_blank" rel="noopener noreferrer"
+       style="display:inline-flex;align-items:center;gap:8px;min-height:44px">
+      ${icon}<span>${name}</span>
+    </a>`
+  ).join("");
+}
+
 function directorDialog() {
   return `
     <dialog id="directorDialog" aria-labelledby="directorName"
@@ -337,6 +375,10 @@ const pages = {
         <p>${directorProfile.officeHours}</p>
         <button type="button" class="btn" data-open-director
                 aria-haspopup="dialog">Direktor haqida</button>
+      </div></article>
+      <article class="card"><div class="card-body">
+        <h2>Ijtimoiy tarmoqlar</h2>
+        <div style="display:flex;flex-wrap:wrap;gap:12px 18px">${schoolSocialLinks()}</div>
       </div></article>
     </div>
     <div class="wrap" style="margin-top:24px">
