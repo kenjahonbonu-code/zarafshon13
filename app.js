@@ -43,6 +43,55 @@ const announcementCards = () => newsCards(
   "Hozircha muhim e’lonlar yo‘q."
 );
 
+function renderTeam() {
+  const leadership = [
+    ["Hotamova Zilola Akramovna", "Maktab direktori"],
+    ["Rajabova Shahnoza Fattullayevna", "Direktor o‘rinbosari"],
+    ["Kurbonova Nodira Aminovna", "Direktor o‘rinbosari"],
+    ["Naimova Latofat Foxirovna", "Direktor o‘rinbosari"]
+  ];
+
+  const teachers = [
+    ["Nasullayeva Ozoda Xayrullayevna", "Matematika metod birlashmasi rahbari"],
+    ["Davronova Dilorom Toshpolatovna", "Informatika"],
+    ["Yo‘ldosheva Gulbahor Azimovna", "Ona tili"],
+    ["Mingboyev Guljahon Suyindikovna", "Jismoniy tarbiya"],
+    ["Mustafoyeva Toshbuvi Erkinovna", "Fizika"],
+    ["Jusipova Saltanat Jumaxmetovna", "Ingliz tili"],
+    ["Amonova Nilufar Bahodirovna", "Rus tili"]
+  ];
+
+  const teamCards = (people, highlightDirector = false) => people.map(
+    ([name, role], index) => {
+      const initials = name.split(" ").slice(0, 2).map(word => word[0]).join("");
+      const director = highlightDirector && index === 0;
+
+      return `
+        <article style="padding:24px;border:1px solid #d7aa57;border-radius:18px;
+          background:${director ? "#0b203d" : "#fffcf6"};
+          color:${director ? "#fff8ea" : "#0b203d"}">
+          <span aria-hidden="true" style="display:inline-grid;place-items:center;
+            width:48px;height:48px;border-radius:50%;background:#f5d28b;
+            color:#0b203d;font-weight:700">${initials}</span>
+          <h3 style="color:inherit;margin:14px 0 6px">${name}</h3>
+          <p style="color:inherit;margin:0">${role}</p>
+        </article>`;
+    }
+  ).join("");
+
+  const teamGrid = 'display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,255px),1fr));gap:16px';
+
+  return head("Bizning jamoamiz", "Maktab rahbariyati va ustozlar.") + `
+    <section class="section" style="background:#faf5e9">
+      <div class="wrap">
+        <h2>Maktab rahbariyati</h2>
+        <div style="${teamGrid}">${teamCards(leadership, true)}</div>
+        <h2 style="margin-top:42px">Pedagoglar jamoasi</h2>
+        <div style="${teamGrid}">${teamCards(teachers)}</div>
+      </div>
+    </section>`;
+}
+
 const pages = {
   home: () => `
     <section class="hero">
@@ -178,13 +227,7 @@ const pages = {
     </section>
   `,
 
-  team: () => head(
-    "Bizning jamoamiz",
-    "Maktab rahbariyati va ustozlar."
-  ) + `<section class="section"><div class="wrap">
-    <h2>Pedagoglar jamoasi</h2>
-    <p>O‘qituvchilar haqidagi ma’lumotlar qo‘shiladi.</p>
-  </div></section>`,
+  team: renderTeam,
 
   news: () => head(
     "Yangiliklar",
@@ -827,56 +870,7 @@ async function setupPasswordRecovery() {
             }
 
             alert("Parol muvaffaqiyatli yangilandi!");
-            box.remove();{
-  const leadership = [
-    ["Hotamova Zilola Akramovna", "Maktab direktori"],
-    ["Rajabova Shahnoza Fattullayevna", "Direktor o‘rinbosari"],
-    ["Kurbonova Nodira Aminovna", "Direktor o‘rinbosari"],
-    ["Naimova Latofat Foxirovna", "Direktor o‘rinbosari"]
-  ];
-
-  const teachers = [
-    ["Nasullayeva Ozoda Xayrullayevna", "Matematika metod birlashmasi rahbari"],
-    ["Davronova Dilorom Toshpolatovna", "Informatika"],
-    ["Yo‘ldosheva Gulbahor Azimovna", "Ona tili"],
-    ["Mingboyev Guljahon Suyindikovna", "Jismoniy tarbiya"],
-    ["Mustafoyeva Toshbuvi Erkinovna", "Fizika"],
-    ["Jusipova Saltanat Jumaxmetovna", "Ingliz tili"],
-    ["Amonova Nilufar Bahodirovna", "Rus tili"]
-  ];
-
-  const teamCards = (people, highlightDirector = false) => people.map(
-    ([name, role], index) => {
-      const initials = name.split(" ").slice(0, 2).map(word => word[0]).join("");
-      const director = highlightDirector && index === 0;
-
-      return `
-        <article style="padding:24px;border:1px solid #d7aa57;border-radius:18px;
-          background:${director ? "#0b203d" : "#fffcf6"};
-          color:${director ? "#fff8ea" : "#0b203d"}">
-          <span aria-hidden="true" style="display:inline-grid;place-items:center;
-            width:48px;height:48px;border-radius:50%;background:#f5d28b;
-            color:#0b203d;font-weight:700">${initials}</span>
-          <h3 style="color:inherit;margin:14px 0 6px">${name}</h3>
-          <p style="color:inherit;margin:0">${role}</p>
-        </article>`;
-    }
-  ).join("");
-
-  const teamGrid = 'display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,255px),1fr));gap:16px';
-
-  pages.team = () => head("Bizning jamoamiz", "Maktab rahbariyati va ustozlar.") + `
-    <section class="section" style="background:#faf5e9">
-      <div class="wrap">
-        <h2>Maktab rahbariyati</h2>
-        <div style="${teamGrid}">${teamCards(leadership, true)}</div>
-        <h2 style="margin-top:42px">Pedagoglar jamoasi</h2>
-        <div style="${teamGrid}">${teamCards(teachers)}</div>
-      </div>
-    </section>`;
-
-  if (location.hash === "#team") renderWithAdmin();
-}
+            box.remove();
             await supabaseClient.auth.signOut();
             history.replaceState(null, "", location.pathname);
           };
